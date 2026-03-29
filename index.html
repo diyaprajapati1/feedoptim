@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FeedOptim — Turn feedback into decisions</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#FAF8F4;--beige:#F0EBE1;--beige2:#E8E0D0;
+  --green:#1D9E75;--gl:#E1F5EE;--gm:#0F6E56;
+  --accent:#C17B3A;--al:#FBF0E4;
+  --text:#1A1A18;--tm:#5A5850;--tl:#9A9488;--border:#DDD8CE;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--cream);position:relative;overflow:hidden;padding:2rem;}
+.hc{position:absolute;border-radius:50%;pointer-events:none;}
+.hc1{width:600px;height:600px;background:var(--green);opacity:.06;top:-200px;right:-150px;}
+.hc2{width:400px;height:400px;background:var(--accent);opacity:.06;bottom:-100px;left:-100px;}
+.hc3{width:200px;height:200px;background:var(--green);opacity:.05;bottom:100px;right:100px;}
+.logo-hero{font-family:'Lora',serif;font-size:64px;font-weight:600;letter-spacing:-2px;opacity:0;transform:translateY(30px);animation:fadeUp 1s ease forwards .3s;}
+.logo-hero span{color:var(--green);}
+.tagline{font-size:16px;color:var(--tm);margin-top:16px;opacity:0;animation:fadeUp 1s ease forwards .7s;font-weight:300;}
+.scroll-hint{margin-top:48px;opacity:0;animation:fadeUp 1s ease forwards 1.2s;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;}
+.scroll-hint span{font-size:11px;color:var(--tl);letter-spacing:1.5px;text-transform:uppercase;}
+.arrow-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--tm);animation:bounce 2s ease infinite 2s;font-size:14px;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+.app-section{background:var(--beige);min-height:100vh;padding-bottom:4rem;}
+.topbar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:10;}
+.logo-sm{font-family:'Lora',serif;font-size:20px;font-weight:600;letter-spacing:-.5px;}
+.logo-sm span{color:var(--green);}
+.api-wrap{display:flex;align-items:center;gap:8px;}
+.api-wrap label{font-size:12px;color:var(--tl);}
+.api-wrap input{font-size:13px;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--beige);color:var(--text);width:220px;font-family:'DM Sans',sans-serif;}
+.api-wrap input:focus{outline:none;border-color:var(--green);}
+.main{max-width:880px;margin:0 auto;padding:2.5rem 1rem;}
+.pg-title{font-family:'Lora',serif;font-size:28px;font-weight:500;margin-bottom:4px;}
+.pg-sub{font-size:14px;color:var(--tm);margin-bottom:2rem;}
+.card{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;}
+.sec-label{font-size:11px;font-weight:500;color:var(--tl);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.channels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem;}
+.ch-card{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--cream);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.ch-card.active{border-color:var(--green);background:var(--gl);}
+.ch-top{display:flex;align-items:center;gap:8px;}
+.ch-icon{font-size:15px;width:20px;text-align:center;}
+.ch-name{font-size:13px;font-weight:500;color:var(--tm);}
+.ch-card.active .ch-name{color:var(--gm);}
+.ch-upload{display:none;margin-top:10px;border-top:1px solid var(--beige2);padding-top:10px;}
+.ch-card.active .ch-upload{display:block;}
+.up-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tl);background:var(--beige);border:1px dashed var(--beige2);border-radius:8px;padding:7px 10px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;}
+.up-btn:hover{border-color:var(--green);color:var(--green);}
+.file-input{display:none;}
+.file-list{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+.file-tag{font-size:11px;background:var(--beige2);color:var(--tm);padding:3px 8px;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.file-tag button{background:none;border:none;cursor:pointer;color:var(--tl);font-size:11px;}
+.report-config{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;}
+.report-tabs{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.rtab{padding:8px 16px;border:1px solid var(--border);border-radius:20px;font-size:13px;cursor:pointer;background:var(--cream);color:var(--tm);font-family:'DM Sans',sans-serif;transition:all .2s;}
+.rtab.active{background:var(--green);color:white;border-color:var(--green);}
+.date-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.date-row label{font-size:12px;color:var(--tl);}
+.date-row input[type=date]{font-size:13px;padding:7px 12px;border:1px solid var(--border);border-radius:8px;background:var(--beige);color:var(--text);font-family:'DM Sans',sans-serif;}
+.date-row input[type=date]:focus{outline:none;border-color:var(--green);}
+.config-panel{display:none;}
+.config-panel.visible{display:block;}
+textarea{width:100%;min-height:110px;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text);background:var(--beige);resize:vertical;line-height:1.6;}
+textarea:focus{outline:none;border-color:var(--green);background:var(--cream);}
+textarea::placeholder{color:var(--tl);}
+.run-btn{background:var(--green);color:white;border:none;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:500;cursor:pointer;width:100%;margin-top:14px;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.run-btn:hover{background:var(--gm);}
+.err-box{background:#FCEBEB;border:1px solid #F09595;border-radius:10px;padding:12px 16px;color:#A32D2D;font-size:13px;margin-top:12px;}
+.loading-wrap{text-align:center;padding:5rem 0;}
+.loading-logo{font-family:'Lora',serif;font-size:52px;font-weight:600;color:var(--green);animation:pulse 1.5s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.loading-msg{font-size:15px;color:var(--tm);margin-top:1rem;font-weight:500;}
+.loading-sub{font-size:13px;color:var(--tl);margin-top:6px;}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;}
+.metric{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;}
+.metric-label{font-size:11px;color:var(--tl);margin-bottom:5px;}
+.metric-val{font-family:'Lora',serif;font-size:24px;font-weight:500;color:var(--text);}
+.metric-sub{font-size:11px;color:var(--green);margin-top:3px;}
+.theme-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--beige2);}
+.theme-item:last-child{border-bottom:none;}
+.theme-label{font-size:13px;color:var(--text);min-width:160px;}
+.bar-wrap{flex:1;height:5px;background:var(--beige2);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;background:var(--green);transition:width 1s ease;}
+.theme-pct{font-size:13px;font-weight:500;color:var(--tm);min-width:36px;text-align:right;}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;}
+.high{background:#FCEBEB;color:#A32D2D;}
+.medium{background:#FAEEDA;color:#854F0B;}
+.low{background:var(--gl);color:var(--gm);}
+.insight-box{font-size:14px;color:var(--tm);line-height:1.8;background:var(--beige);border-left:3px solid var(--green);padding:14px 16px;border-radius:0 10px 10px 0;font-family:'Lora',serif;font-style:italic;}
+.action-item{display:flex;gap:14px;align-items:flex-start;padding:14px;border:1px solid var(--border);border-radius:12px;background:var(--cream);margin-bottom:10px;}
+.action-num{width:28px;height:28px;border-radius:50%;background:var(--green);color:white;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.action-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;font-family:'Lora',serif;}
+.action-desc{font-size:13px;color:var(--tm);line-height:1.6;}
+.feat-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--cream);margin-bottom:8px;}
+.feat-rank{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--green);min-width:28px;}
+.feat-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.feat-votes{font-size:12px;color:var(--tl);}
+.feat-desc{font-size:13px;color:var(--tm);line-height:1.5;margin-top:3px;}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.comp-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+.comp-period{font-size:11px;color:var(--tl);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.comp-val{font-family:'Lora',serif;font-size:28px;font-weight:500;color:var(--text);}
+.comp-label{font-size:12px;color:var(--tm);margin-top:3px;}
+.delta{font-size:13px;font-weight:500;margin-top:6px;}
+.delta.up{color:var(--green);}
+.delta.down{color:#A32D2D;}
+.accent-tag{background:var(--al);color:var(--accent);font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;display:inline-block;margin-bottom:10px;}
+.report-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px;}
+.report-actions{display:flex;gap:8px;}
+.new-btn{font-size:13px;padding:8px 16px;border:1px solid var(--border);border-radius:8px;background:var(--cream);cursor:pointer;color:var(--tm);font-family:'DM Sans',sans-serif;}
+.new-btn:hover{border-color:var(--green);color:var(--green);}
+.pdf-btn{font-size:13px;padding:8px 16px;border:none;border-radius:8px;background:var(--accent);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.pdf-btn:hover{opacity:.9;}
+.report-type-badge{display:inline-block;background:var(--gl);color:var(--gm);font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<div id="heroSection" class="hero">
+  <div class="hc hc1"></div><div class="hc hc2"></div><div class="hc hc3"></div>
+  <div class="logo-hero">Feed<span>Optim</span></div>
+  <div class="tagline">Turn scattered feedback into clear product decisions.</div>
+  <div class="scroll-hint" onclick="scrollToApp()">
+    <span>Get started</span>
+    <div class="arrow-btn">↓</div>
+  </div>
+</div>
+
+<div id="appSection" class="app-section">
+  <div class="topbar">
+    <div class="logo-sm">Feed<span>Optim</span></div>
+    <div class="api-wrap">
+      <label>Gemini API Key</label>
+      <input type="password" id="apiKey" placeholder="Paste your key here"/>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="inputSection">
+      <div class="pg-title">Analyse your feedback</div>
+      <div class="pg-sub">Upload data, choose your report type, and let FeedOptim generate your insights.</div>
+
+      <div class="card">
+        <div class="sec-label">Select channels & upload data</div>
+        <div class="channels-grid">
+          <div class="ch-card active" data-ch="App Store Reviews">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">★</span><span class="ch-name">App Store</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+          <div class="ch-card active" data-ch="Instagram">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">◈</span><span class="ch-name">Instagram</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+          <div class="ch-card" data-ch="Surveys">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">☰</span><span class="ch-name">Surveys</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+          <div class="ch-card" data-ch="Support Emails">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">✉</span><span class="ch-name">Emails</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+          <div class="ch-card" data-ch="Twitter/X">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">✕</span><span class="ch-name">Twitter/X</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+          <div class="ch-card" data-ch="Call Transcripts">
+            <div class="ch-top" onclick="toggleCh(this.parentElement)"><span class="ch-icon">◎</span><span class="ch-name">Call Transcripts</span></div>
+            <div class="ch-upload"><label class="up-btn">+ Upload file<input class="file-input" type="file" accept=".pdf,.xlsx,.xls,.csv,.png,.jpg,.jpeg,.txt" multiple onchange="handleFiles(this)"/></label><div class="file-list"></div></div>
+          </div>
+        </div>
+        <div class="sec-label">Paste additional feedback or notes</div>
+        <textarea id="feedbackInput" placeholder="Paste raw feedback, meeting notes, discussion threads, or any other input here..."></textarea>
+      </div>
+
+      <div class="report-config">
+        <div class="sec-label">Report type</div>
+        <div class="report-tabs">
+          <button class="rtab active" data-type="weekly" onclick="switchTab(this)">Weekly Report</button>
+          <button class="rtab" data-type="custom" onclick="switchTab(this)">Custom Range</button>
+          <button class="rtab" data-type="comparison" onclick="switchTab(this)">Period Comparison</button>
+          <button class="rtab" data-type="features" onclick="switchTab(this)">Feature Priority</button>
+        </div>
+        <div id="panel-weekly" class="config-panel visible">
+          <div class="date-row"><label>Week of</label><input type="date" id="weekly-date"/></div>
+        </div>
+        <div id="panel-custom" class="config-panel">
+          <div class="date-row"><label>From</label><input type="date" id="custom-from"/><label>To</label><input type="date" id="custom-to"/></div>
+        </div>
+        <div id="panel-comparison" class="config-panel">
+          <div class="date-row"><label>Period A from</label><input type="date" id="comp-a-from"/><label>to</label><input type="date" id="comp-a-to"/></div>
+          <div class="date-row" style="margin-top:10px;"><label>Period B from</label><input type="date" id="comp-b-from"/><label>to</label><input type="date" id="comp-b-to"/></div>
+        </div>
+        <div id="panel-features" class="config-panel">
+          <p style="font-size:13px;color:var(--tm);">Analyses all uploaded feedback and ranks feature requests by volume and urgency.</p>
+        </div>
+      </div>
+
+      <button class="run-btn" onclick="runAnalysis()">Generate Report →</button>
+      <div id="errBox"></div>
+    </div>
+
+    <div id="loadingSection" style="display:none;">
+      <div class="loading-wrap">
+        <div class="loading-logo">FO</div>
+        <div class="loading-msg" id="loadingMsg">Collecting feedback across channels...</div>
+        <div class="loading-sub">FeedOptim is generating your report</div>
+      </div>
+    </div>
+
+    <div id="reportSection" style="display:none;">
+      <div class="report-hdr">
+        <div>
+          <div class="accent-tag">Report ready</div>
+          <div class="report-type-badge" id="reportTypeBadge"></div>
+          <div class="pg-title">Feedback Report</div>
+          <div class="pg-sub" id="reportMeta"></div>
+        </div>
+        <div class="report-actions">
+          <button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
+          <button class="new-btn" onclick="resetApp()">← New report</button>
+        </div>
+      </div>
+      <div id="reportContent"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const loadingSteps=["Collecting feedback across channels...","Detecting themes and patterns...","Prioritising feature requests...","Generating your report...","Finalising insights..."];
+let extractedTexts=[];
+let currentReportType='weekly';
+let lastResult=null;
+
+function scrollToApp(){document.getElementById('appSection').scrollIntoView({behavior:'smooth'});}
+
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('weekly-date').value=today;
+document.getElementById('custom-from').value=today;
+document.getElementById('custom-to').value=today;
+document.getElementById('comp-a-from').value=today;
+document.getElementById('comp-a-to').value=today;
+document.getElementById('comp-b-from').value=today;
+document.getElementById('comp-b-to').value=today;
+
+function switchTab(btn){
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.config-panel').forEach(p=>p.classList.remove('visible'));
+  btn.classList.add('active');
+  currentReportType=btn.dataset.type;
+  document.getElementById('panel-'+currentReportType).classList.add('visible');
+}
+
+function toggleCh(card){card.classList.toggle('active');}
+
+async function handleFiles(input){
+  const card=input.closest('.ch-card');
+  const fl=card.querySelector('.file-list');
+  for(const file of input.files){
+    const tag=document.createElement('div');
+    tag.className='file-tag';
+    tag.innerHTML=`<span>${file.name}</span><button onclick="this.parentElement.remove()">✕</button>`;
+    fl.appendChild(tag);
+    const text=await extractText(file);
+    if(text)extractedTexts.push(`[${card.dataset.ch} - ${file.name}]: ${text}`);
+  }
+  input.value='';
+}
+
+async function extractText(file){
+  const n=file.name.toLowerCase();
+  if(n.endsWith('.txt')||n.endsWith('.csv'))return await file.text();
+  if(n.endsWith('.xlsx')||n.endsWith('.xls')){
+    return await new Promise(res=>{
+      const r=new FileReader();
+      r.onload=e=>{
+        try{const wb=XLSX.read(e.target.result,{type:'binary'});let o='';wb.SheetNames.forEach(s=>{o+=XLSX.utils.sheet_to_csv(wb.Sheets[s])+'\n';});res(o);}catch{res('');}
+      };r.readAsBinaryString(file);
+    });
+  }
+  return `[File: ${file.name}]`;
+}
+
+function getChannels(){return[...document.querySelectorAll('.ch-card.active')].map(c=>c.dataset.ch);}
+function getDateConfig(){
+  if(currentReportType==='weekly')return{week:document.getElementById('weekly-date').value};
+  if(currentReportType==='custom')return{from:document.getElementById('custom-from').value,to:document.getElementById('custom-to').value};
+  if(currentReportType==='comparison')return{aFrom:document.getElementById('comp-a-from').value,aTo:document.getElementById('comp-a-to').value,bFrom:document.getElementById('comp-b-from').value,bTo:document.getElementById('comp-b-to').value};
+  return{};
+}
+
+function buildPrompt(allFeedback,channels,dates){
+  const base=`You are FeedOptim, an expert product feedback analyst. Channels: ${channels.join(', ')}.\n\nFeedback data:\n${allFeedback}\n\n`;
+  if(currentReportType==='weekly')return base+`Generate a weekly product insights report for the week of ${dates.week}. Return ONLY valid JSON:\n{"totalFeedback":<n>,"avgSentiment":"<positive/neutral/negative>","urgentIssues":<n>,"nps":<0-10>,"themes":[{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"}],"insights":"<3-4 sentences>","actions":[{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"}],"features":[{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"}]}`;
+  if(currentReportType==='custom')return base+`Generate a product insights report for ${dates.from} to ${dates.to}. Return ONLY valid JSON:\n{"totalFeedback":<n>,"avgSentiment":"<positive/neutral/negative>","urgentIssues":<n>,"nps":<0-10>,"themes":[{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"},{"label":"<t>","percentage":<n>,"priority":"<high/medium/low>"}],"insights":"<3-4 sentences>","actions":[{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"}],"features":[{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>"}]}`;
+  if(currentReportType==='comparison')return base+`Compare feedback from Period A (${dates.aFrom} to ${dates.aTo}) vs Period B (${dates.bFrom} to ${dates.bTo}). Return ONLY valid JSON:\n{"periodA":{"label":"Period A","totalFeedback":<n>,"avgSentiment":"<pos/neu/neg>","urgentIssues":<n>,"nps":<0-10>,"topTheme":"<t>"},"periodB":{"label":"Period B","totalFeedback":<n>,"avgSentiment":"<pos/neu/neg>","urgentIssues":<n>,"nps":<0-10>,"topTheme":"<t>"},"insights":"<3-4 sentences comparing periods>","improvements":["<s>","<s>","<s>"],"regressions":["<s>","<s>"],"actions":[{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"}]}`;
+  return base+`Identify and rank all feature requests by volume and urgency. Return ONLY valid JSON:\n{"totalRequests":<n>,"features":[{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>","effort":"<low/medium/high>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>","effort":"<low/medium/high>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>","effort":"<low/medium/high>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>","effort":"<low/medium/high>"},{"title":"<t>","votes":<n>,"priority":"<high/medium/low>","description":"<s>","effort":"<low/medium/high>"}],"quickWins":[{"title":"<t>","description":"<s>"},{"title":"<t>","description":"<s>"}],"insights":"<3-4 sentences>"}`;
+}
+
+function resetApp(){
+  extractedTexts=[];lastResult=null;
+  document.getElementById('reportSection').style.display='none';
+  document.getElementById('inputSection').style.display='block';
+}
+
+async function runAnalysis(){
+  const apiKey=document.getElementById('apiKey').value.trim();
+  const pasted=document.getElementById('feedbackInput').value.trim();
+  const channels=getChannels();
+  const errBox=document.getElementById('errBox');
+  errBox.innerHTML='';
+  if(!apiKey){errBox.innerHTML='<div class="err-box">Please enter your Gemini API key in the top bar.</div>';return;}
+  if(!pasted&&extractedTexts.length===0){errBox.innerHTML='<div class="err-box">Please paste feedback or upload at least one file.</div>';return;}
+  if(!channels.length){errBox.innerHTML='<div class="err-box">Please select at least one channel.</div>';return;}
+
+  const allFeedback=[...extractedTexts,pasted?`[Pasted]: ${pasted}`:''].filter(Boolean).join('\n\n');
+  const dates=getDateConfig();
+  document.getElementById('inputSection').style.display='none';
+  document.getElementById('loadingSection').style.display='block';
+
+  let s=0;const lm=document.getElementById('loadingMsg');
+  const iv=setInterval(()=>{if(s<loadingSteps.length-1){s++;lm.textContent=loadingSteps[s];}},1800);
+
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:buildPrompt(allFeedback,channels,dates)}]}]})
+    });
+    clearInterval(iv);
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error?.message||'API error');
+    const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+    const result=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    lastResult=result;
+    renderReport(result,channels,dates);
+  }catch(e){
+    clearInterval(iv);
+    document.getElementById('loadingSection').style.display='none';
+    document.getElementById('inputSection').style.display='block';
+    errBox.innerHTML=`<div class="err-box">Error: ${e.message}. Check your API key and try again.</div>`;
+  }
+}
+
+function renderReport(r,channels,dates){
+  document.getElementById('loadingSection').style.display='none';
+  const typeLabels={weekly:'Weekly Report',custom:'Custom Range Report',comparison:'Period Comparison',features:'Feature Priority Report'};
+  document.getElementById('reportTypeBadge').textContent=typeLabels[currentReportType];
+  document.getElementById('reportMeta').textContent=`Channels: ${channels.join(' · ')}`;
+  const content=document.getElementById('reportContent');
+
+  if(currentReportType==='weekly'||currentReportType==='custom'){
+    const sc=r.avgSentiment==='positive'?'var(--green)':r.avgSentiment==='negative'?'#A32D2D':'#854F0B';
+    content.innerHTML=`
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Feedback pieces</div><div class="metric-val">${r.totalFeedback}</div><div class="metric-sub">${channels.length} channel${channels.length>1?'s':''}</div></div>
+        <div class="metric"><div class="metric-label">Sentiment</div><div class="metric-val" style="color:${sc};font-size:18px;text-transform:capitalize;">${r.avgSentiment}</div><div class="metric-sub">overall tone</div></div>
+        <div class="metric"><div class="metric-label">Urgent issues</div><div class="metric-val">${r.urgentIssues}</div><div class="metric-sub">need action</div></div>
+        <div class="metric"><div class="metric-label">NPS Score</div><div class="metric-val">${r.nps}/10</div><div class="metric-sub">satisfaction</div></div>
+      </div>
+      <div class="card"><div class="sec-label">Top themes</div><div id="themeList">${r.themes.map(t=>`<div class="theme-item"><div class="theme-label">${t.label}</div><div class="bar-wrap"><div class="bar-fill" style="width:0%" data-w="${t.percentage}%"></div></div><div class="theme-pct">${t.percentage}%</div><span class="badge ${t.priority}">${t.priority}</span></div>`).join('')}</div></div>
+      <div class="card"><div class="sec-label">Feature requests</div>${r.features.map((f,i)=>`<div class="feat-item"><div class="feat-rank">#${i+1}</div><div><div class="feat-title">${f.title}</div><div class="feat-votes">${f.votes} mentions · <span class="badge ${f.priority}" style="font-size:10px;">${f.priority}</span></div><div class="feat-desc">${f.description}</div></div></div>`).join('')}</div>
+      <div class="card"><div class="sec-label">Key insights</div><div class="insight-box">${r.insights}</div></div>
+      <div class="card"><div class="sec-label">Action plan</div>${r.actions.map((a,i)=>`<div class="action-item"><div class="action-num">${i+1}</div><div><div class="action-title">${a.title}</div><div class="action-desc">${a.description}</div></div></div>`).join('')}</div>`;
+    setTimeout(()=>document.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w),100);
+  }
+
+  if(currentReportType==='comparison'){
+    const delta=(a,b)=>{const d=b-a;const cls=d>=0?'up':'down';return`<div class="delta ${cls}">${d>=0?'↑':'↓'} ${Math.abs(d)} vs Period A</div>`;};
+    content.innerHTML=`
+      <div class="comp-grid" style="margin-bottom:1.25rem;">
+        <div class="comp-card"><div class="comp-period">Period A</div><div class="comp-val">${r.periodA.totalFeedback}</div><div class="comp-label">feedback pieces</div></div>
+        <div class="comp-card"><div class="comp-period">Period B</div><div class="comp-val">${r.periodB.totalFeedback}</div><div class="comp-label">feedback pieces</div>${delta(r.periodA.totalFeedback,r.periodB.totalFeedback)}</div>
+      </div>
+      <div class="comp-grid" style="margin-bottom:1.25rem;">
+        <div class="comp-card"><div class="comp-period">Period A · NPS</div><div class="comp-val">${r.periodA.nps}/10</div><div class="comp-label">Top theme: ${r.periodA.topTheme}</div></div>
+        <div class="comp-card"><div class="comp-period">Period B · NPS</div><div class="comp-val">${r.periodB.nps}/10</div><div class="comp-label">Top theme: ${r.periodB.topTheme}</div>${delta(r.periodA.nps,r.periodB.nps)}</div>
+      </div>
+      <div class="card"><div class="sec-label">Improvements in Period B</div>${r.improvements.map(i=>`<div style="font-size:13px;color:var(--gm);padding:6px 0;border-bottom:1px solid var(--beige2);">✓ ${i}</div>`).join('')}</div>
+      <div class="card"><div class="sec-label">Regressions to watch</div>${r.regressions.map(i=>`<div style="font-size:13px;color:#A32D2D;padding:6px 0;border-bottom:1px solid var(--beige2);">↓ ${i}</div>`).join('')}</div>
+      <div class="card"><div class="sec-label">Key insights</div><div class="insight-box">${r.insights}</div></div>
+      <div class="card"><div class="sec-label">Recommended actions</div>${r.actions.map((a,i)=>`<div class="action-item"><div class="action-num">${i+1}</div><div><div class="action-title">${a.title}</div><div class="action-desc">${a.description}</div></div></div>`).join('')}</div>`;
+  }
+
+  if(currentReportType==='features'){
+    content.innerHTML=`
+      <div class="metrics" style="grid-template-columns:repeat(2,1fr);">
+        <div class="metric"><div class="metric-label">Total feature requests</div><div class="metric-val">${r.totalRequests}</div><div class="metric-sub">identified</div></div>
+        <div class="metric"><div class="metric-label">Quick wins</div><div class="metric-val">${r.quickWins.length}</div><div class="metric-sub">low effort, high impact</div></div>
+      </div>
+      <div class="card"><div class="sec-label">Feature priority ranking</div>${r.features.map((f,i)=>`<div class="feat-item"><div class="feat-rank">#${i+1}</div><div style="flex:1"><div class="feat-title">${f.title}</div><div class="feat-votes">${f.votes} mentions · <span class="badge ${f.priority}" style="font-size:10px;">${f.priority} priority</span> · Effort: <strong>${f.effort}</strong></div><div class="feat-desc">${f.description}</div></div></div>`).join('')}</div>
+      <div class="card"><div class="sec-label">Quick wins — build these first</div>${r.quickWins.map((q,i)=>`<div class="action-item"><div class="action-num">${i+1}</div><div><div class="action-title">${q.title}</div><div class="action-desc">${q.description}</div></div></div>`).join('')}</div>
+      <div class="card"><div class="sec-label">Overall insights</div><div class="insight-box">${r.insights}</div></div>`;
+  }
+
+  document.getElementById('reportSection').style.display='block';
+}
+
+function downloadPDF(){
+  if(!lastResult)return;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210;let y=20;
+  const typeLabels={weekly:'Weekly Report',custom:'Custom Range Report',comparison:'Period Comparison',features:'Feature Priority Report'};
+  doc.setFont('helvetica','bold');doc.setFontSize(22);doc.setTextColor(29,158,117);
+  doc.text('FeedOptim',20,y);
+  doc.setFontSize(12);doc.setTextColor(90,88,80);doc.setFont('helvetica','normal');
+  doc.text(typeLabels[currentReportType],20,y+=8);
+  doc.setDrawColor(221,216,206);doc.line(20,y+=4,W-20,y);y+=8;
+
+  function addSection(title,lines){
+    if(y>260){doc.addPage();y=20;}
+    doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(154,148,136);
+    doc.text(title.toUpperCase(),20,y);y+=6;
+    doc.setFont('helvetica','normal');doc.setFontSize(11);doc.setTextColor(26,26,24);
+    lines.forEach(line=>{
+      if(y>270){doc.addPage();y=20;}
+      const split=doc.splitTextToSize(String(line),W-40);
+      doc.text(split,20,y);y+=split.length*6;
+    });y+=4;
+  }
+
+  const r=lastResult;
+  if(currentReportType==='weekly'||currentReportType==='custom'){
+    addSection('Summary',[`Total feedback: ${r.totalFeedback}`,`Sentiment: ${r.avgSentiment}`,`Urgent issues: ${r.urgentIssues}`,`NPS: ${r.nps}/10`]);
+    addSection('Top Themes',r.themes.map(t=>`${t.label} — ${t.percentage}% (${t.priority} priority)`));
+    addSection('Key Insights',[r.insights]);
+    addSection('Feature Requests',r.features.map((f,i)=>`#${i+1} ${f.title} — ${f.votes} mentions (${f.priority}): ${f.description}`));
+    addSection('Action Plan',r.actions.map((a,i)=>`${i+1}. ${a.title}: ${a.description}`));
+  }else if(currentReportType==='comparison'){
+    addSection('Period A',[`Feedback: ${r.periodA.totalFeedback}`,`Sentiment: ${r.periodA.avgSentiment}`,`NPS: ${r.periodA.nps}/10`,`Top theme: ${r.periodA.topTheme}`]);
+    addSection('Period B',[`Feedback: ${r.periodB.totalFeedback}`,`Sentiment: ${r.periodB.avgSentiment}`,`NPS: ${r.periodB.nps}/10`,`Top theme: ${r.periodB.topTheme}`]);
+    addSection('Improvements',r.improvements);
+    addSection('Regressions',r.regressions);
+    addSection('Key Insights',[r.insights]);
+    addSection('Actions',r.actions.map((a,i)=>`${i+1}. ${a.title}: ${a.description}`));
+  }else{
+    addSection('Summary',[`Total feature requests: ${r.totalRequests}`]);
+    addSection('Feature Ranking',r.features.map((f,i)=>`#${i+1} ${f.title} — ${f.votes} mentions, ${f.priority} priority, ${f.effort} effort: ${f.description}`));
+    addSection('Quick Wins',r.quickWins.map((q,i)=>`${i+1}. ${q.title}: ${q.description}`));
+    addSection('Insights',[r.insights]);
+  }
+  doc.setFontSize(9);doc.setTextColor(154,148,136);
+  doc.text('Generated by FeedOptim',20,285);
+  doc.save(`feedoptim-${currentReportType}-report.pdf`);
+}
+</script>
+</body>
+</html>
