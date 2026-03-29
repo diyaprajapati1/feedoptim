@@ -452,134 +452,39 @@ function downloadPDF(){
 
 const samplePools = {
   appStore: [
-    'App Store - Flowdesk Reviews:
-★★★☆☆ Onboarding is confusing, took me 2 hours to set up my first project. Needs a proper tutorial.
-★★★★★ Best project management tool I have used. The dashboard is clean and intuitive.
-★★☆☆☆ App crashes every time I try to upload files larger than 10MB. Very frustrating.
-★★★★☆ Love the interface but really need a Slack integration. My team lives in Slack.
-★★★☆☆ Mobile app is too slow. Desktop version is great though.
-★★★★★ Switched from Asana and never looking back. Much simpler for a small team.
-★★☆☆☆ Cannot export reports to PDF. This is a basic feature that is missing.
-★★★★☆ Customer support is responsive. Fixed my billing issue within 24 hours.',
-    'App Store - Flowdesk Reviews:
-★★★☆☆ The free tier is too limited. Hit the project limit after one week.
-★★★★★ Finally a tool that does not overwhelm small teams. Perfect for our 8-person startup.
-★★☆☆☆ No dark mode in 2024? Come on. Eyes hurt after long sessions.
-★★★★☆ Really solid product. Would love Google Calendar sync though.
-★★★☆☆ Keeps logging me out randomly. Annoying when I am mid-task.
-★★★★★ The kanban view is gorgeous. My team adopted it in one day.
-★★☆☆☆ Cannot assign multiple people to one task. Deal breaker for us.'
+    'App Store Reviews - Flowdesk:\n★★★☆☆ Onboarding is confusing, took me 2 hours to set up my first project. Needs a proper tutorial.\n★★★★★ Best project management tool I have used. The dashboard is clean and intuitive.\n★★☆☆☆ App crashes every time I try to upload files larger than 10MB. Very frustrating.\n★★★★☆ Love the interface but really need a Slack integration. My team lives in Slack.\n★★★☆☆ Mobile app is too slow. Desktop version is great though.\n★★★★★ Switched from Asana and never looking back. Much simpler for a small team.\n★★☆☆☆ Cannot export reports to PDF. This is a basic feature that is missing.',
+    'App Store Reviews - Flowdesk:\n★★★☆☆ The free tier is too limited. Hit the project limit after one week.\n★★★★★ Finally a tool that does not overwhelm small teams. Perfect for our 8-person startup.\n★★☆☆☆ No dark mode in 2024? Come on. Eyes hurt after long sessions.\n★★★★☆ Really solid product. Would love Google Calendar sync though.\n★★★☆☆ Keeps logging me out randomly. Annoying when I am mid-task.\n★★★★★ The kanban view is gorgeous. My team adopted it in one day.\n★★☆☆☆ Cannot assign multiple people to one task. Deal breaker for us.'
   ],
   instagram: [
-    'Instagram Comments on Flowdesk posts:
-@techfounder22: When is the Slack integration coming? Our whole team is waiting on this before we switch.
-@pmlife: Just tried the new timeline view. Absolute game changer for sprint planning!
-@startupgrind: Why does the mobile app drain battery so much? Unusable on the go.
-@sarahbuilds: The onboarding flow needs work. Spent 30 mins figuring out how to invite my team.
-@devstartup: Would pay double if you added GitHub integration.
-@uxdesigner_r: The UI is genuinely beautiful. Rare for a productivity tool.
-@foundermode: Need bulk task import from CSV. Manually entering 50 tasks is painful.',
-    'Instagram Comments:
-@growthpm: Your pricing page is confusing. Took me 10 mins to figure out what plan I need.
-@tinyteams: Perfect for small teams. We moved from Notion and it is so much better structured.
-@techbuilder: Any plans for an API? Want to build a custom integration.
-@startuplife_: The guest access feature saved us with our client projects.
-@productdaily: Dark mode please. This is the most requested feature in your comments!'
+    'Instagram Comments on Flowdesk posts:\n@techfounder22: When is the Slack integration coming? Our whole team is waiting on this before we switch.\n@pmlife: Just tried the new timeline view. Absolute game changer for sprint planning!\n@startupgrind: Why does the mobile app drain battery so much? Unusable on the go.\n@sarahbuilds: The onboarding flow needs work. Spent 30 mins figuring out how to invite my team.\n@devstartup: Would pay double if you added GitHub integration.\n@uxdesigner_r: The UI is genuinely beautiful. Rare for a productivity tool.\n@foundermode: Need bulk task import from CSV. Manually entering 50 tasks is painful.',
+    'Instagram Comments on Flowdesk posts:\n@growthpm: Your pricing page is confusing. Took me 10 mins to figure out what plan I need.\n@tinyteams: Perfect for small teams. We moved from Notion and it is so much better structured.\n@techbuilder: Any plans for an API? Want to build a custom integration.\n@startuplife_: The guest access feature saved us with our client projects.\n@productdaily: Dark mode please. This is the most requested feature in your comments!'
   ],
   surveys: [
-    'Survey Responses - Flowdesk Q1 User Survey:
-Q: What is your biggest frustration with Flowdesk?
-- No Slack integration, we use Slack for everything (mentioned by 34 respondents)
-- Onboarding is not intuitive, had to watch YouTube tutorials (28 respondents)
-- Mobile app performance is poor (22 respondents)
-- Cannot export data easily (19 respondents)
-- Pricing feels high for the features offered (15 respondents)
-
-Q: What feature would make you upgrade to a paid plan?
-- Slack and Google integration (41 responses)
-- Better reporting and analytics (29 responses)
-- More storage for file uploads (18 responses)
-- Time tracking built in (24 responses)
-
-NPS Score responses: 6, 9, 8, 4, 9, 10, 7, 5, 8, 9, 6, 10, 8, 7, 3, 9, 8, 10, 7, 6',
-    'Survey Responses - Churn Exit Survey:
-Why did you cancel your Flowdesk subscription?
-- Missing integrations with our existing tools: 12 users
-- Too expensive for what it offers: 8 users
-- Switched to a competitor with more features: 9 users
-- Team did not adopt the tool: 6 users
-- Mobile experience was too poor: 5 users
-
-What would bring you back?
-- Slack integration: 18 users
-- Lower pricing for small teams: 14 users
-- Better mobile app: 11 users'
+    'Survey Responses - Flowdesk Q1 User Survey:\nBiggest frustration: No Slack integration, we use Slack for everything (34 respondents). Onboarding is not intuitive, had to watch YouTube tutorials (28 respondents). Mobile app performance is poor (22 respondents). Cannot export data easily (19 respondents). Pricing feels high for the features offered (15 respondents).\nFeature requests: Slack and Google integration (41 responses). Better reporting and analytics (29 responses). More storage for file uploads (18 responses). Time tracking built in (24 responses).\nNPS Scores: 6, 9, 8, 4, 9, 10, 7, 5, 8, 9, 6, 10, 8, 7, 3, 9, 8, 10, 7, 6',
+    'Survey Responses - Churn Exit Survey:\nWhy cancelled: Missing integrations with existing tools: 12 users. Too expensive for what it offers: 8 users. Switched to a competitor with more features: 9 users. Team did not adopt the tool: 6 users. Mobile experience was too poor: 5 users.\nWhat would bring you back: Slack integration: 18 users. Lower pricing for small teams: 14 users. Better mobile app: 11 users.'
   ],
   emails: [
-    'Support Emails - Last 30 days:
-From: james@rocketstartup.io - Subject: Slack Integration?
-Hi, love the product but our entire company runs on Slack. Is there any timeline for Slack integration? We are holding off upgrading until this is available.
-
-From: priya@designco.com - Subject: Billing confusion
-I was charged twice this month. Please help. Also your billing page is very confusing about what is included in each plan.
-
-From: mark@techventures.com - Subject: File upload bug
-Keep getting an error when uploading files over 5MB. This is blocking our team from using the product properly.
-
-From: sarah@growthhq.io - Subject: Feature Request - Time Tracking
-We love Flowdesk but we really need time tracking. We currently use Toggl alongside Flowdesk which is annoying. Would pay more for this.
-
-From: dev@buildfast.co - Subject: API access
-Do you have a public API? We want to build a custom integration with our internal tools.',
-    'Support Emails:
-From: tom@founderclub.io - Subject: Onboarding help
-Your onboarding is confusing. I spent an hour and still cannot figure out how to set up recurring tasks. Please add better documentation.
-
-From: lisa@pmstudio.com - Subject: Export feature
-Is there a way to export my project data to Excel? I need to share reports with stakeholders who do not use Flowdesk.
-
-From: raj@scaleup.in - Subject: Team permissions
-We need more granular permissions. Right now it is all or nothing for team members. Need view-only access for some stakeholders.'
+    'Support Emails - Last 30 days:\nFrom james@rocketstartup.io: Love the product but our entire company runs on Slack. Is there any timeline for Slack integration? We are holding off upgrading until this is available.\nFrom priya@designco.com: I was charged twice this month. Please help. Also your billing page is very confusing about what is included in each plan.\nFrom mark@techventures.com: Keep getting an error when uploading files over 5MB. This is blocking our team from using the product properly.\nFrom sarah@growthhq.io: We love Flowdesk but we really need time tracking. We currently use Toggl alongside Flowdesk which is annoying. Would pay more for this.\nFrom dev@buildfast.co: Do you have a public API? We want to build a custom integration with our internal tools.',
+    'Support Emails:\nFrom tom@founderclub.io: Your onboarding is confusing. I spent an hour and still cannot figure out how to set up recurring tasks. Please add better documentation.\nFrom lisa@pmstudio.com: Is there a way to export my project data to Excel? I need to share reports with stakeholders who do not use Flowdesk.\nFrom raj@scaleup.in: We need more granular permissions. Right now it is all or nothing for team members. Need view-only access for some stakeholders.'
   ],
   calls: [
-    'Call Transcript - Customer Success Call with James (RocketStartup):
-CS Rep: Thanks for joining James, how has Flowdesk been working for your team?
-James: Honestly love it but the biggest blocker is Slack. We are in Slack all day and having to switch context to Flowdesk for updates is killing adoption. Half my team just stopped using it.
-CS Rep: Noted, that is our most requested feature right now.
-James: Also the mobile app - I manage on the go a lot and it is just too slow. Sometimes takes 10 seconds to load my tasks.
-
-Call Transcript - Churned User Interview with Priya:
-Priya: We actually switched to Linear. Main reason was integrations. We use GitHub, Slack, and Figma heavily and Flowdesk did not connect with any of them. For a dev team that is a dealbreaker.
-Interviewer: What did you like about Flowdesk?
-Priya: The UI honestly. It was beautiful and simple. If you build those integrations I would come back.',
-    'Call Transcript - Onboarding Call with new user Sarah:
-Sarah: I am a bit confused about how to structure my projects. The tutorial does not really explain the difference between workspaces and projects.
-CS Rep: Great feedback, we hear that a lot. Let me walk you through it.
-Sarah: Also will there ever be time tracking? We run on hourly billing and I need to track time per task.
-
-Call Transcript - Quarterly review with power user Mike:
-Mike: The product keeps getting better. The new kanban view is excellent. My one big ask is better reporting - I need to show my investors progress and right now I am manually screenshotting things.'
+    'Call Transcript - Customer call with James from RocketStartup:\nCS Rep: How has Flowdesk been working for your team?\nJames: Honestly love it but the biggest blocker is Slack. We are in Slack all day and having to switch context to Flowdesk for updates is killing adoption. Half my team just stopped using it. Also the mobile app is just too slow. Sometimes takes 10 seconds to load my tasks.\nCS Rep: Noted, that is our most requested feature right now.',
+    'Call Transcript - Churned User Interview with Priya:\nPriya: We switched to Linear. Main reason was integrations. We use GitHub, Slack, and Figma heavily and Flowdesk did not connect with any of them. For a dev team that is a dealbreaker.\nInterviewer: What did you like about Flowdesk?\nPriya: The UI honestly. It was beautiful and simple. If you build those integrations I would come back.\n\nCall Transcript - Onboarding Call with Sarah:\nSarah: I am confused about how to structure my projects. The tutorial does not explain the difference between workspaces and projects. Also will there ever be time tracking? We run on hourly billing.'
   ]
 };
 
 function loadSampleData() {
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-  const combined = [
-    pick(samplePools.appStore),
-    pick(samplePools.instagram),
-    pick(samplePools.surveys),
-    pick(samplePools.emails),
-    pick(samplePools.calls)
-  ].join('
-
----
-
-');
-  
+  var pick = function(arr) { return arr[Math.floor(Math.random() * arr.length)]; };
+  var combined = [
+    '[App Store Reviews]: ' + pick(samplePools.appStore),
+    '[Instagram]: ' + pick(samplePools.instagram),
+    '[Surveys]: ' + pick(samplePools.surveys),
+    '[Support Emails]: ' + pick(samplePools.emails),
+    '[Call Transcripts]: ' + pick(samplePools.calls)
+  ].join('\n\n---\n\n');
   document.getElementById('feedbackInput').value = combined;
   document.getElementById('sampleBadge').style.display = 'block';
-  
-  document.querySelectorAll('.ch-card').forEach(c => c.classList.add('active'));
+  document.querySelectorAll('.ch-card').forEach(function(c) { c.classList.add('active'); });
 }
 </script>
 </body>
