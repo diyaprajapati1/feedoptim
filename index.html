@@ -134,12 +134,7 @@ textarea::placeholder{color:var(--tl);}
 <div id="appSection" class="app-section">
   <div class="topbar">
     <div class="logo-sm">Feed<span>Optim</span></div>
-    <div class="api-wrap">
-      <label>Gemini API Key</label>
-      <input type="password" id="apiKey" placeholder="Paste your key here"/>
-    </div>
-  </div>
-
+  
   <div class="main">
     <div id="inputSection">
       <div class="pg-title">Analyse your feedback</div>
@@ -310,7 +305,7 @@ function resetApp(){
 }
 
 async function runAnalysis(){
-  const apiKey=document.getElementById('apiKey').value.trim();
+  const apiKey="AIzaSyDUGBP5-cou9f_NYQIefwl8-cwv5QxLziY";
   const pasted=document.getElementById('feedbackInput').value.trim();
   const channels=getChannels();
   const errBox=document.getElementById('errBox');
