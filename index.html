@@ -14,7 +14,7 @@
   --text:#1A1A18;--tm:#5A5850;--tl:#9A9488;--border:#DDD8CE;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);}
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--cream);position:relative;overflow:hidden;padding:2rem;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--cream);position:relative;overflow:hidden;padding:2rem;z-index:0;}
 .hc{position:absolute;border-radius:50%;pointer-events:none;}
 .hc1{width:600px;height:600px;background:var(--green);opacity:.06;top:-200px;right:-150px;}
 .hc2{width:400px;height:400px;background:var(--accent);opacity:.06;bottom:-100px;left:-100px;}
@@ -27,7 +27,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .arrow-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--tm);animation:bounce 2s ease infinite 2s;font-size:14px;}
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
-.app-section{background:var(--beige);min-height:100vh;padding-bottom:4rem;}
+.app-section{background:var(--beige);min-height:100vh;padding-bottom:4rem;position:relative;z-index:1;}
 .topbar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:10;}
 .logo-sm{font-family:'Lora',serif;font-size:20px;font-weight:600;letter-spacing:-.5px;}
 .logo-sm span{color:var(--green);}
@@ -47,8 +47,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .ch-icon{font-size:15px;width:20px;text-align:center;}
 .ch-name{font-size:13px;font-weight:500;color:var(--tm);}
 .ch-card.active .ch-name{color:var(--gm);}
-.ch-upload{display:none;margin-top:10px;border-top:1px solid var(--beige2);padding-top:10px;}
-.ch-card.active .ch-upload{display:block;}
+.ch-upload{display:block;margin-top:10px;border-top:1px solid var(--beige2);padding-top:10px;}
 .up-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tl);background:var(--beige);border:1px dashed var(--beige2);border-radius:8px;padding:7px 10px;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;}
 .up-btn:hover{border-color:var(--green);color:var(--green);}
 .file-input{display:none;}
@@ -134,7 +133,12 @@ textarea::placeholder{color:var(--tl);}
 <div id="appSection" class="app-section">
   <div class="topbar">
     <div class="logo-sm">Feed<span>Optim</span></div>
-  
+    <div class="api-wrap">
+      <label>Gemini API Key</label>
+      <input type="password" id="apiKey" placeholder="Paste your key here"/>
+    </div>
+  </div>
+
   <div class="main">
     <div id="inputSection">
       <div class="pg-title">Analyse your feedback</div>
@@ -305,7 +309,7 @@ function resetApp(){
 }
 
 async function runAnalysis(){
-  const apiKey="AIzaSyDUGBP5-cou9f_NYQIefwl8-cwv5QxLziY";
+  const apiKey=document.getElementById('apiKey').value.trim();
   const pasted=document.getElementById('feedbackInput').value.trim();
   const channels=getChannels();
   const errBox=document.getElementById('errBox');
