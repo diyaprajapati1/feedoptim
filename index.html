@@ -472,16 +472,63 @@ const samplePools = {
   ]
 };
 
+const samplePoolsPeriodA = {
+  appStore: 'App Store Reviews - Flowdesk (Period A - Last Month):\n★★★☆☆ Onboarding is very confusing, no tutorials available.\n★★★★★ Great tool for small teams, love the kanban view.\n★★☆☆☆ App crashes on file uploads. Very frustrating.\n★★★☆☆ No Slack integration, team keeps forgetting to check Flowdesk.\n★★☆☆☆ Mobile app is painfully slow.\n★★★★☆ Good product but missing basic integrations.\n★★☆☆☆ Hit the free tier project limit after one week.',
+  instagram: 'Instagram Comments - Flowdesk (Period A):\n@techfounder22: Still waiting on Slack integration. Any update?\n@startupgrind: Mobile app drains battery, unusable on the go.\n@sarahbuilds: Onboarding flow is confusing, took forever to invite my team.\n@devstartup: No GitHub integration is a dealbreaker for dev teams.\n@pmlife: UI looks great but missing too many features to switch fully.',
+  surveys: 'Survey Responses - Period A:\nBiggest frustrations: No Slack integration (38 respondents). Confusing onboarding (31 respondents). Poor mobile app (26 respondents). No data export (21 respondents). Too expensive (17 respondents).\nNPS Scores: 4, 6, 7, 3, 8, 5, 6, 4, 7, 5, 6, 3, 7, 5, 4, 6, 8, 4, 5, 6',
+  emails: 'Support Emails - Period A:\nFrom james@rocketstartup.io: No Slack integration is blocking our upgrade. Please prioritise this.\nFrom priya@designco.com: Billed twice this month. Billing page is confusing.\nFrom mark@techventures.com: File upload error for anything over 5MB. Blocking our team.\nFrom tom@founderclub.io: Onboarding is confusing, no documentation for recurring tasks.',
+  calls: 'Call Transcripts - Period A:\nJames: Slack is the dealbreaker. Half my team stopped using Flowdesk because of context switching. Mobile is also too slow.\nPriya: We are evaluating switching to Linear. Main issue is no integrations with GitHub and Figma.\nSarah: Onboarding confused me for hours. No clear tutorial on workspaces vs projects.'
+};
+
+const samplePoolsPeriodB = {
+  appStore: 'App Store Reviews - Flowdesk (Period B - This Month):\n★★★★☆ Onboarding got much better with the new tutorial flow!\n★★★★★ Best project tool for small teams. Keeps getting better.\n★★★★☆ File uploads finally work. Thank you for fixing this.\n★★★☆☆ Still no Slack integration but everything else improved.\n★★★★☆ Mobile app is faster now, noticeable improvement.\n★★★★★ Just switched from Asana, so much simpler.\n★★★☆☆ Would love PDF export but overall happy with the product.',
+  instagram: 'Instagram Comments - Flowdesk (Period B):\n@techfounder22: Onboarding is way better now. New tutorial is helpful!\n@startupgrind: Mobile performance improved a lot this update.\n@sarahbuilds: Finally invited my team easily. Much smoother experience.\n@devstartup: Still need GitHub integration but loving the new kanban updates.\n@pmlife: The new timeline view is a game changer for sprint planning.',
+  surveys: 'Survey Responses - Period B:\nBiggest frustrations: No Slack integration (29 respondents, down from 38). Pricing (18 respondents). No PDF export (15 respondents). Want time tracking (22 respondents).\nNPS Scores: 7, 8, 9, 6, 9, 8, 7, 8, 9, 7, 8, 9, 7, 8, 6, 9, 8, 7, 9, 8',
+  emails: 'Support Emails - Period B:\nFrom james@rocketstartup.io: Onboarding is much better now. Still waiting on Slack though.\nFrom sarah@growthhq.io: Love the product but need time tracking. Would pay more for it.\nFrom dev@buildfast.co: Do you have a public API? Want to build custom integration.\nFrom lisa@pmstudio.com: Can we export project data to Excel? Need to share with stakeholders.',
+  calls: 'Call Transcripts - Period B:\nJames: Onboarding improved a lot. Team adoption is better. Slack is still the main blocker for upgrading.\nMike: Product keeps getting better. New kanban view is excellent. Need better reporting for investor updates.\nSarah: Much clearer now how to set up projects. Loving the tool, just need time tracking.'
+};
+
 function loadSampleData() {
   var pick = function(arr) { return arr[Math.floor(Math.random() * arr.length)]; };
-  var combined = [
-    '[App Store Reviews]: ' + pick(samplePools.appStore),
-    '[Instagram]: ' + pick(samplePools.instagram),
-    '[Surveys]: ' + pick(samplePools.surveys),
-    '[Support Emails]: ' + pick(samplePools.emails),
-    '[Call Transcripts]: ' + pick(samplePools.calls)
-  ].join('\n\n---\n\n');
-  document.getElementById('feedbackInput').value = combined;
+  
+  var today = new Date();
+  var lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  var lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
+  var thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  var fmt = function(d) { return d.toISOString().split('T')[0]; };
+
+  if(currentReportType === 'comparison') {
+    var periodAData = [
+      '[App Store Reviews - Period A]: ' + samplePoolsPeriodA.appStore,
+      '[Instagram - Period A]: ' + samplePoolsPeriodA.instagram,
+      '[Surveys - Period A]: ' + samplePoolsPeriodA.surveys,
+      '[Support Emails - Period A]: ' + samplePoolsPeriodA.emails,
+      '[Call Transcripts - Period A]: ' + samplePoolsPeriodA.calls,
+      '[App Store Reviews - Period B]: ' + samplePoolsPeriodB.appStore,
+      '[Instagram - Period B]: ' + samplePoolsPeriodB.instagram,
+      '[Surveys - Period B]: ' + samplePoolsPeriodB.surveys,
+      '[Support Emails - Period B]: ' + samplePoolsPeriodB.emails,
+      '[Call Transcripts - Period B]: ' + samplePoolsPeriodB.calls
+    ].join('\n\n---\n\n');
+    document.getElementById('feedbackInput').value = periodAData;
+    document.getElementById('comp-a-from').value = fmt(lastMonth);
+    document.getElementById('comp-a-to').value = fmt(lastMonthEnd);
+    document.getElementById('comp-b-from').value = fmt(thisMonthStart);
+    document.getElementById('comp-b-to').value = fmt(today);
+  } else {
+    var combined = [
+      '[App Store Reviews]: ' + pick(samplePools.appStore),
+      '[Instagram]: ' + pick(samplePools.instagram),
+      '[Surveys]: ' + pick(samplePools.surveys),
+      '[Support Emails]: ' + pick(samplePools.emails),
+      '[Call Transcripts]: ' + pick(samplePools.calls)
+    ].join('\n\n---\n\n');
+    document.getElementById('feedbackInput').value = combined;
+    document.getElementById('weekly-date').value = fmt(today);
+    document.getElementById('custom-from').value = fmt(new Date(today.getFullYear(), today.getMonth() - 1, 1));
+    document.getElementById('custom-to').value = fmt(today);
+  }
+
   document.getElementById('sampleBadge').style.display = 'block';
   document.querySelectorAll('.ch-card').forEach(function(c) { c.classList.add('active'); });
 }
